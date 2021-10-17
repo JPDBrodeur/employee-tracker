@@ -1,6 +1,11 @@
 const inquirer = require('inquirer');
 const figlet = require('figlet');
+const db = require('./db/connection');
 
+db.connect(err => {
+    if (err) throw err;
+    console.log('Database connected.');
+});
 
 const promptUser = () => {
     console.log(figlet.textSync(`Employee  

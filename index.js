@@ -36,30 +36,28 @@ Manager`));
     .then(({ mainMenu }) => {
         switch (mainMenu) {
             case 'View All Departments':
-                const sql = `SELECT employees.id,
-                employees.first_name,
-                employees.last_name,
-                roles.title,
-                departments.name AS department,
-                roles.salary
-                FROM employees
-                LEFT JOIN roles
-                ON employees.role_id = roles.id
-                LEFT JOIN departments
-                ON roles.department_id = departments.id;`
-                // CONCAT(first_name, ' ', last_name) AS manager FROM employees
-                // LEFT JOIN employees
-                // ON employees.manager_id = employees.id;
-                db.promise().query(sql, (err, res) => {
-                    if (err) throw err;
-                    console.table(res);
-                });
+        
                 break;
             case 'View All Roles':
 
                 break;
             case 'View All Employees':
-
+                const sql = `SELECT
+                employees.id,
+                employees.first_name,
+                employees.last_name,
+                roles.title,
+                departments.name AS department,
+                roles.salary,
+                CONCAT(managers.first_name, ' ', managers.last_name) AS manager
+                FROM employees
+                LEFT JOIN roles ON employees.role_id = roles.id
+                LEFT JOIN departments ON roles.department_id = departments.id
+                LEFT JOIN employees as managers ON employees.manager_id = managers.id;`           
+                db.promise().query(sql, (err, res) => {
+                    if (err) throw err;
+                    console.table(res);
+                });
                 break;
             case 'Add Department':
 

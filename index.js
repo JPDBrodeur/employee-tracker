@@ -1,6 +1,7 @@
-const inquirer = require('inquirer');
-const figlet = require('figlet');
 const db = require('./db/connection');
+const inquirer = require('inquirer');
+const cTable = require('console.table');
+const figlet = require('figlet');
 
 db.connect(err => {
     if (err) throw err;
@@ -15,7 +16,8 @@ Manager`));
         type: 'list',
         name: 'mainMenu',
         message: 'What would you like to do?',
-        choices: ['View All Departments',
+        choices: [
+        'View All Departments',
         'View All Roles',
         'View All Employees',
         'Add Department',
@@ -34,7 +36,24 @@ Manager`));
     .then(({ mainMenu }) => {
         switch (mainMenu) {
             case 'View All Departments':
-
+                const sql = `SELECT employees.id,
+                employees.first_name,
+                employees.last_name,
+                roles.title,
+                departments.name AS department,
+                roles.salary
+                FROM employees
+                LEFT JOIN roles
+                ON employees.role_id = roles.id
+                LEFT JOIN departments
+                ON roles.department_id = departments.id;`
+                // CONCAT(first_name, ' ', last_name) AS manager FROM employees
+                // LEFT JOIN employees
+                // ON employees.manager_id = employees.id;
+                db.promise().query(sql, (err, res) => {
+                    if (err) throw err;
+                    console.table(res);
+                });
                 break;
             case 'View All Roles':
 

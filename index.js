@@ -34,18 +34,25 @@ Manager`));
     .then(({ mainMenu }) => {
         switch (mainMenu) {
             case 'View All Departments':
+
                 break;
             case 'View All Roles':
+
                 break;
             case 'View All Employees':
+
                 break;
             case 'Add Department':
+
                 break;
             case 'Add Role':
+
                 break;
             case 'Add Employee':
+
                 break;
             case 'Update Employee Role':
+                
                 break;
         }
     });

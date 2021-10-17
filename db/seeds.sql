@@ -16,6 +16,7 @@ VALUES
     ('Software Engineer', 120000, 1);
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
+VALUES
     ('John', 'Doe', 5, 3),
     ('Mike', 'Chan', 6, 1),
     ('Ashley', 'Rodriguez', 3, null),
@@ -23,4 +24,4 @@ INSERT INTO employees (first_name, last_name, role_id, manager_id)
     ('Malia', 'Brown', 1, null),
     ('Sarah', 'Lourd', 4, null),
     ('Tom', 'Allen', 2, 6),
-    ('Christian' 'Eckenrode', 3, 2);
+    ('Christian', 'Eckenrode', 3, 2);

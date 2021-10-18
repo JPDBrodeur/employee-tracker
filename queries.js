@@ -1,4 +1,5 @@
 const db = require('./db/connection');
+const promptUser = require('./index')
 
 class Database {
     constructor(sqlQuery, sqlPost) {

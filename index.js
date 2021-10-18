@@ -35,7 +35,7 @@ const promptUser = () => {
         // 'Remove Department',
         // 'Remove Role',
         // 'Remove Employee',
-        // 'View Total Utilized Budget of Department',
+        // 'View Total Utilized Budget of Department'
     ]
     })
     .then(({ mainMenu }) => {
@@ -87,6 +87,7 @@ const promptUser = () => {
                 break;
         }
     });
+    // promptUser();
 };
 
 begin();

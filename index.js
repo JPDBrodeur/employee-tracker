@@ -2,15 +2,20 @@ const db = require('./db/connection');
 const inquirer = require('inquirer');
 const cTable = require('console.table');
 const figlet = require('figlet');
+const { departments, roles, employees } = require('./queries');
 
 db.connect(err => {
     if (err) throw err;
-    console.log('Database connected.');
 });
 
+const begin = () => {
+    console.log(figlet.textSync(`Employee
+    Manager`));
+    console.log('');
+    promptUser();
+}
+
 const promptUser = () => {
-    console.log(figlet.textSync(`Employee  
-Manager`));
 
     inquirer.prompt({
         type: 'list',
@@ -36,34 +41,43 @@ Manager`));
     .then(({ mainMenu }) => {
         switch (mainMenu) {
             case 'View All Departments':
-        
+                departments.viewAll();
                 break;
             case 'View All Roles':
-
+                roles.viewAll();
                 break;
             case 'View All Employees':
-                const sql = `SELECT
-                employees.id,
-                employees.first_name,
-                employees.last_name,
-                roles.title,
-                departments.name AS department,
-                roles.salary,
-                CONCAT(managers.first_name, ' ', managers.last_name) AS manager
-                FROM employees
-                LEFT JOIN roles ON employees.role_id = roles.id
-                LEFT JOIN departments ON roles.department_id = departments.id
-                LEFT JOIN employees as managers ON employees.manager_id = managers.id;`           
-                db.promise().query(sql, (err, res) => {
-                    if (err) throw err;
-                    console.table(res);
-                });
+                employees.viewAll();
                 break;
             case 'Add Department':
-
+                inquirer.prompt({
+                    type: 'text',
+                    name: 'name',
+                    message: "What is the department's name?"
+                }).then(({ name }) => {
+                    departments.add([name]);
+                });                        
                 break;
             case 'Add Role':
-
+                inquirer.prompt([
+                    {
+                        type: 'text',
+                        name: 'title',
+                        message: "What is the job title?"
+                    },
+                    {
+                        type: 'number',
+                        name: 'salary',
+                        message: 'What is the salary for this position?'
+                    },
+                    {
+                        type: 'number',
+                        name: 'department_id',
+                        message: "What department id does this role belong to?"
+                    }
+                ]).then(({ title, salary, department_id }) => {
+                    roles.add([title, salary, department_id]);
+                });               
                 break;
             case 'Add Employee':
 
@@ -75,4 +89,4 @@ Manager`));
     });
 };
 
-promptUser();
+begin();

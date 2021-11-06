@@ -117,6 +117,12 @@ const promptUser = () => {
                                 })
                             },
                             {
+                                type: 'confirm',
+                                name: 'confirmManager',
+                                message: 'Does this employee have a manager?',
+                                default: true
+                            },
+                            {
                                 type: 'list',
                                 name: 'manager_id',
                                 message: "Who is this employee's manager?",
@@ -124,7 +130,14 @@ const promptUser = () => {
                                     if(a.name < b.name) { return -1; }
                                     if(a.name > b.name) { return 1; }
                                     return 0;
-                                })
+                                }),
+                                when: ({ confirmManager }) => {
+                                    if (confirmManager) {
+                                      return true;
+                                    } else {
+                                      return false;
+                                    }
+                                  }
                             }
                         ]).then(({ first_name, last_name, role_id, manager_id }) => {
                             employees.add([first_name, last_name, role_id, manager_id])

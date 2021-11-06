@@ -62,10 +62,10 @@ class RoleMethods extends SqlMethods {
 }
 
 class EmployeeMethods extends SqlMethods {
-    constructor(getAll, addOne, updateManager) {
+    constructor(getAll, addOne, updateRole) {
         super(getAll, addOne);
 
-        this.updateManager = updateManager;
+        this.updateRole = updateRole;
     }
 
     getNames() {
@@ -80,7 +80,7 @@ class EmployeeMethods extends SqlMethods {
     };
 
     update(params) {
-        return db.promise().query(this.updateManager, params)
+        return db.promise().query(this.updateRole, params)
             .then(() => {
                 console.log('');
                 console.log(`Update was successful.`)

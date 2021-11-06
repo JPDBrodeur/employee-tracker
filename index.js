@@ -80,7 +80,11 @@ const promptUser = () => {
                                 type: 'list',
                                 name: 'department_id',
                                 message: "What department does this role belong to?",
-                                choices: departmentArray
+                                choices: departmentArray.sort(function(a, b){
+                                    if(a.name < b.name) { return -1; }
+                                    if(a.name > b.name) { return 1; }
+                                    return 0;
+                                })
                             }
                         ]).then(({ title, salary, department_id }) => {
                             roles.add([title, salary, department_id])
@@ -106,13 +110,21 @@ const promptUser = () => {
                                 type: 'list',
                                 name: 'role_id',
                                 message: "What is this employee's title?",
-                                choices: titleArray
+                                choices: titleArray.sort(function(a, b){
+                                    if(a.name < b.name) { return -1; }
+                                    if(a.name > b.name) { return 1; }
+                                    return 0;
+                                })
                             },
                             {
                                 type: 'list',
                                 name: 'manager_id',
                                 message: "Who is this employee's manager?",
-                                choices: employeeArray
+                                choices: employeeArray.sort(function(a, b){
+                                    if(a.name < b.name) { return -1; }
+                                    if(a.name > b.name) { return 1; }
+                                    return 0;
+                                })
                             }
                         ]).then(({ first_name, last_name, role_id, manager_id }) => {
                             employees.add([first_name, last_name, role_id, manager_id])
@@ -129,13 +141,21 @@ const promptUser = () => {
                                 type: 'list',
                                 name: 'employee_id',
                                 message: "Which employee would you like to update?",
-                                choices: employeeArray
+                                choices: employeeArray.sort(function(a, b){
+                                    if(a.name < b.name) { return -1; }
+                                    if(a.name > b.name) { return 1; }
+                                    return 0;
+                                })
                             },
                             {
                                 type: 'list',
                                 name: 'role_id',
                                 message: "What is this employee's updated title?",
-                                choices: titleArray
+                                choices: titleArray.sort(function(a, b){
+                                    if(a.name < b.name) { return -1; }
+                                    if(a.name > b.name) { return 1; }
+                                    return 0;
+                                })
                             }
                         ]).then(({ employee_id, role_id }) => {
                             employees.update([role_id, employee_id])

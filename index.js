@@ -64,59 +64,85 @@ const promptUser = () => {
                 });                        
                 break;
             case 'Add Role':
-                inquirer.prompt([
-                    {
-                        type: 'text',
-                        name: 'title',
-                        message: "What is the job title?"
-                    },
-                    {
-                        type: 'number',
-                        name: 'salary',
-                        message: 'What is the salary for this position?'
-                    },
-                    {
-                        type: 'number',
-                        name: 'department_id',
-                        message: "What department id does this role belong to?"
-                    }
-                ]).then(({ title, salary, department_id }) => {
-                    roles.add([title, salary, department_id])
-                        .then(() => promptUser());
-                });               
+                departments.getDepartments().then((departmentArray) => {    
+                    inquirer.prompt([
+                            {
+                                type: 'text',
+                                name: 'title',
+                                message: "What is the job title?"
+                            },
+                            {
+                                type: 'number',
+                                name: 'salary',
+                                message: 'What is the salary for this position?'
+                            },
+                            {
+                                type: 'list',
+                                name: 'department_id',
+                                message: "What department does this role belong to?",
+                                choices: departmentArray
+                            }
+                        ]).then(({ title, salary, department_id }) => {
+                            roles.add([title, salary, department_id])
+                                .then(() => promptUser());
+                        });
+                    });             
                 break;
             case 'Add Employee':
-                let employeeNames = employees.getNames();
-                console.log(employeeNames);
-                
-                inquirer.prompt([
-                    {
-                        type: 'text',
-                        name: 'first_name',
-                        message: "What is the employee's first name?"
-                    },
-                    {
-                        type: 'text',
-                        name: 'last_name',
-                        message: "What is the employee's last name?"
-                    },
-                    // {
-                    //     type: 'text',
-                    //     name: 'title',
-                    //     message: "What is this employee's title?",
-                    //     choices: []
-                    //     // role array
-                    // },
-                    {
-                        type: 'list',
-                        name: 'title',
-                        message: "Who is this employee's manager?",
-                        choices: employeeNames
-                    }
-                ]).then(() => promptUser()); 
+                employees.getNames().then((employeeArray) => {
+                    roles.getTitles().then((titleArray) => {
+                        inquirer.prompt([
+                            {
+                                type: 'text',
+                                name: 'first_name',
+                                message: "What is the employee's first name?"
+                            },
+                            {
+                                type: 'text',
+                                name: 'last_name',
+                                message: "What is the employee's last name?"
+                            },
+                            {
+                                type: 'list',
+                                name: 'role_id',
+                                message: "What is this employee's title?",
+                                choices: titleArray
+                            },
+                            {
+                                type: 'list',
+                                name: 'manager_id',
+                                message: "Who is this employee's manager?",
+                                choices: employeeArray
+                            }
+                        ]).then(({ first_name, last_name, role_id, manager_id }) => {
+                            employees.add([first_name, last_name, role_id, manager_id])
+                                .then(() => promptUser());
+                        });
+                    })
+                });
                 break;
             case 'Update Employee Role':
-                
+                employees.getNames().then((employeeArray) => {
+                    roles.getTitles().then((titleArray) => {
+                        inquirer.prompt([
+                            {
+                                type: 'list',
+                                name: 'employee_id',
+                                message: "Which employee would you like to update?",
+                                choices: employeeArray
+                            },
+                            {
+                                type: 'list',
+                                name: 'role_id',
+                                message: "What is this employee's updated title?",
+                                choices: titleArray
+                            }
+                        ]).then(({ employee_id, role_id }) => {
+                            employees.update([role_id, employee_id])
+                                .then(() => promptUser());
+                        });
+                    })
+                });
                 break;
             case 'Quit Application':
                 db.end();

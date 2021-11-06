@@ -39,7 +39,7 @@ SO THAT I can organize and plan my business
 
 ## Walkthrough Video
 
-[Click here to watch a walkthrough video.](https://watch.screencastify.com/v/Cn5OrJD0JqBQ9jvNh6HH)
+[Click here to watch a walkthrough video.](https://watch.screencastify.com/v/rQtTkiaL9IMIGq0e7udC)
 
 
 ## License
